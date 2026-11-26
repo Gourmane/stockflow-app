@@ -19,7 +19,13 @@ function parseApiUrl(value: string | undefined): URL | null {
   }
 }
 
-const apiUrl = parseApiUrl(import.meta.env.VITE_API_URL?.trim());
+const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
+
+const apiUrl = parseApiUrl(
+  rawApiUrl === '/api'
+    ? new URL('/api', window.location.origin).href
+    : rawApiUrl
+);
 
 export const backendOrigin = apiUrl?.origin;
 
